@@ -5,6 +5,9 @@
 echo "Please type node version, followed by [ENTER]:"
 read NODE_VERSION
 
+echo "Please type vagrant version, followed by [ENTER]:"
+read VAGRANT_VERSION
+
 apt update -y
 
 echo "Installing dev requirements"
@@ -37,8 +40,21 @@ apt install terminator -y
 
 wget -c https://download.virtualbox.org/virtualbox/5.2.18/virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
 dpkg -i virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
+rm  virtualbox-5.2_5.2.18-124319~Ubuntu~bionic_amd64.deb
 apt install -f install
 
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+sudo touch /etc/apt/sources.list.d/kubernetes.list 
+
+echo "Installing kubectl"
+echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
 echo "Done, you MUST restart your PC"
+
+wget -c https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.deb
+dpkg -i vagrant_2.1.2_x86_64.deb
+rm vagrant_2.1.2_x86_64.deb
 
 exit 0
