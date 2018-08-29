@@ -48,13 +48,27 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo touch /etc/apt/sources.list.d/kubernetes.list 
 
 echo "Installing kubectl"
+
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubectl
-echo "Done, you MUST restart your PC"
 
 wget -c https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.deb
 dpkg -i vagrant_2.1.2_x86_64.deb
 rm vagrant_2.1.2_x86_64.deb
+echo "Installing GO"
+wget -c https://dl.google.com/go/go1.11.linux-amd64.tar.gz
+tar -C /usr/local -zxvf go1.11.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+echo "Done, you MUST restart your PC"
+
+echo "Do you want to restart your PC? [Y/N]:"
+read RESTART_ANSWER
+
+if [RESTART_ANSWER -eq "Y"]
+then
+	shutdown -r now
+fi
 
 exit 0
