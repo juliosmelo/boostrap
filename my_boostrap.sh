@@ -13,6 +13,10 @@ read GO_VERSION
 
 apt update -y
 
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python get-pip.py
+
+
 echo "Installing dev requirements"
 apt install git-core build-essentials -y
 
@@ -66,8 +70,19 @@ tar -C /usr/local -zxvf ${GO_VERSION}
 export PATH=$PATH:/usr/local/go/bin
 echo "Installing zsh and oh-my-zsh"
 apt install zsh
-echo "Done, you MUST restart your PC"
 
+echo "deb https://dl.bintray.com/getinsomnia/Insomnia /" \
+    | sudo tee -a /etc/apt/sources.list.d/insomnia.list
+
+# Add public key used to verify code signature
+wget --quiet -O - https://insomnia.rest/keys/debian-public.key.asc \
+    | sudo apt-key add -
+
+# Refresh repository sources and install Insomnia
+sudo apt update
+sudo apt install insomnia -y
+
+echo "Done, you MUST restart your PC"
 echo "Do you want to restart your PC? [Y/N]:"
 read RESTART_ANSWER
 
