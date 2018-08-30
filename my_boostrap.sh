@@ -8,6 +8,9 @@ read NODE_VERSION
 echo "Please type vagrant version, followed by [ENTER]:"
 read VAGRANT_VERSION
 
+echo "Please type golang version: , followed by [ENTER]:"
+read GO_VERSION
+
 apt update -y
 
 echo "Installing dev requirements"
@@ -57,16 +60,18 @@ wget -c https://releases.hashicorp.com/vagrant/2.1.2/vagrant_2.1.2_x86_64.deb
 dpkg -i vagrant_2.1.2_x86_64.deb
 rm vagrant_2.1.2_x86_64.deb
 echo "Installing GO"
-wget -c https://dl.google.com/go/go1.11.linux-amd64.tar.gz
-tar -C /usr/local -zxvf go1.11.linux-amd64.tar.gz
-export PATH=$PATH:/usr/local/go/bin
+wget -c https://dl.google.com/go/${GO_VERSION}
+tar -C /usr/local -zxvf ${GO_VERSION}
 
+export PATH=$PATH:/usr/local/go/bin
+echo "Installing zsh and oh-my-zsh"
+apt install zsh
 echo "Done, you MUST restart your PC"
 
 echo "Do you want to restart your PC? [Y/N]:"
 read RESTART_ANSWER
 
-if [RESTART_ANSWER -eq "Y"]
+if [ RESTART_ANSWER -eq "Y" ]
 then
 	shutdown -r now
 fi
